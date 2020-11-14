@@ -24,7 +24,7 @@ while ("${PADDLE_VERSION}" STREQUAL "")
         # Check the tag is a correct version
         if (${GIT_TAG_NAME} MATCHES "${COMMIT_VERSION_REGEX}")
           # if no tag was found, set PADDLE_VERSION to 0.0.0 to represent latest
-          set(PADDLE_VERSION "0.0.0")
+          set(PADDLE_VERSION "2.0.0")
         elseif (${GIT_TAG_NAME} MATCHES "v${TAG_VERSION_REGEX}")
           string(REPLACE "v" "" PADDLE_VERSION ${GIT_TAG_NAME})
         else()  # otherwise, get the previous git tag name.
@@ -46,7 +46,8 @@ while ("${PADDLE_VERSION}" STREQUAL "")
           endif()
         else()
           # otherwise, we always set PADDLE_VERSION to 0.0.0 to represent latest
-          set(PADDLE_VERSION "0.0.0")
+          # Q-engineering - set PADDLE_VERSION to 2.0.0 to let PaddleHub work 
+          set(PADDLE_VERSION "2.0.0")
         endif()
       endif()
     else()
