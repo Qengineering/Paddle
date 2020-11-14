@@ -45,20 +45,37 @@ IF(NOT WIN32)
     ENDIF()
 
     SET(COMMON_ARGS CC=${OPENBLAS_CC} NO_SHARED=1 NO_LAPACK=1 libs)
-    ExternalProject_Add(
-        extern_openblas
-        ${EXTERNAL_PROJECT_LOG_ARGS}
-        ${SHALLOW_CLONE}
-        "${OPENBLAS_DOWNLOAD_CMD}"
-        PREFIX              ${CBLAS_PREFIX_DIR}
-        SOURCE_DIR          ${CBLAS_SOURCE_DIR}
-        INSTALL_DIR         ${CBLAS_INSTALL_DIR}
-        BUILD_IN_SOURCE     1
-        BUILD_COMMAND       make -j$(nproc) ${COMMON_ARGS} ${OPTIONAL_ARGS}
-        INSTALL_COMMAND     make install NO_SHARED=1 NO_LAPACK=1 PREFIX=<INSTALL_DIR> 
-        UPDATE_COMMAND      ""
-        CONFIGURE_COMMAND   ""
-    )
+    IF(WITH_ARM)
+        ExternalProject_Add(
+            extern_openblas
+            ${EXTERNAL_PROJECT_LOG_ARGS}
+            ${SHALLOW_CLONE}
+            "${OPENBLAS_DOWNLOAD_CMD}"
+            PREFIX              ${CBLAS_PREFIX_DIR}
+            SOURCE_DIR          ${CBLAS_SOURCE_DIR}
+            INSTALL_DIR         ${CBLAS_INSTALL_DIR}
+            BUILD_IN_SOURCE     1
+            BUILD_COMMAND       make -j$(nproc) TARGET=ARMV8 DYNAMIC_ARCH=OFF ${COMMON_ARGS} ${OPTIONAL_ARGS}
+            INSTALL_COMMAND     make install NO_SHARED=1 NO_LAPACK=1 PREFIX=<INSTALL_DIR> 
+            UPDATE_COMMAND      ""
+            CONFIGURE_COMMAND   ""
+        )
+    ELSE(WITH_ARM)
+        ExternalProject_Add(
+            extern_openblas
+            ${EXTERNAL_PROJECT_LOG_ARGS}
+            ${SHALLOW_CLONE}
+            "${OPENBLAS_DOWNLOAD_CMD}"
+            PREFIX              ${CBLAS_PREFIX_DIR}
+            SOURCE_DIR          ${CBLAS_SOURCE_DIR}
+            INSTALL_DIR         ${CBLAS_INSTALL_DIR}
+            BUILD_IN_SOURCE     1
+            BUILD_COMMAND       make -j$(nproc) ${COMMON_ARGS} ${OPTIONAL_ARGS}
+            INSTALL_COMMAND     make install NO_SHARED=1 NO_LAPACK=1 PREFIX=<INSTALL_DIR> 
+            UPDATE_COMMAND      ""
+            CONFIGURE_COMMAND   ""
+        )
+    ENDIF(WITH_ARM)
 ELSE(NOT WIN32)
     SET(CBLAS_LIBRARIES
         "${CBLAS_INSTALL_DIR}/lib/openblas${CMAKE_STATIC_LIBRARY_SUFFIX}"
