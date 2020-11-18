@@ -1,7 +1,9 @@
 ﻿## Q-engineering:
 Modified for Raspberry Pi 4 (64-bit OS), Jetson Nano
 - cmake/flags.cmake (not setting -m64 flag - unknown in AARCH64) <br/>
-- cmake/external/openblas.cmake (setting TARGET=ARMV8 DYNAMIC_ARCH=0 for OpenBLAS build)<br/><br/>
+- cmake/version.cmake (set PADDLE_VERSION to 2.0.0 to let PaddleHub work) <br/> 
+- cmake/external/openblas.cmake (setting TARGET=ARMV8 DYNAMIC_ARCH=0 for OpenBLAS build)<br/>
+- python/unittest_py/requirements.txt (removed OpenCV from requirements - user is now responsible) <br/><br/>
 We strongly advise you to follow this guide for the [Raspberry Pi 4](https://qengineering.eu/install-paddle-on-raspberry-pi-4.html), [Jetson Nano](https://qengineering.eu/install-paddle-on-jetson-nano.html)
 ___
 <p align="center">
